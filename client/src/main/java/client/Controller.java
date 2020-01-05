@@ -97,14 +97,16 @@ public class Controller implements Initializable {
     }
 
     void connect() {
+
         try {
             socket = new Socket(IP_ADRESS, PORT);
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
             new Thread(() -> {
+
                 try {
-                    //цикл авторизации
+                  //цикл авторизации
                     while (true) {
                         String str = in.readUTF();
                         if (str.startsWith("/authok")) {
@@ -112,7 +114,8 @@ public class Controller implements Initializable {
                             nickname = str.split(" ")[1];
                             break;
                         }
-/////////////////
+
+ /////////////////
                         if (str.equals("/end")) {
                             throw new RuntimeException("отключаемся");
                         }
@@ -138,6 +141,13 @@ public class Controller implements Initializable {
                                     }
                                 });
                             }
+                            // проверка на смену логина
+                            if (str.startsWith("/exitLogin")) {
+                                setAuthenticated(false);
+                                System.out.println("/exitLogin");
+                                break;
+                            }
+
                         } else {
                             textArea.appendText(str + "\n");
                         }
@@ -147,6 +157,7 @@ public class Controller implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
+
                     try {
                         socket.close();
                     } catch (IOException e) {

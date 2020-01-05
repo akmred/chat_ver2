@@ -83,6 +83,7 @@ public class ClientHandler {
                             }
                         }
 
+
                     }
                     // цикл работы
                     while (true) {
@@ -92,6 +93,11 @@ public class ClientHandler {
                                 sendMsg("/end");
                                 break;
                             }
+                            // Выйти из авторизации
+                            if(str.equals("/exit")) {
+                                sendMsg("/exitLogin");
+                            }
+
                             if (str.startsWith("/w ")) {
                                 String[] token = str.split(" ", 3);
                                 server.privateMsg(this, token[1], token[2]);
